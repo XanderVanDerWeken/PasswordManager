@@ -11,6 +11,11 @@ import picocli.CommandLine.Model.CommandSpec
 import java.util.concurrent.Callable
 import kotlin.system.exitProcess
 
+/**
+ * Entrypoint of the CLI
+ *
+ * @author Xander Van der Weken
+ */
 @Command(
     name = "password-manager",
     version = ["1.0"],
@@ -31,6 +36,13 @@ class PasswordManagerCli : Callable<Int> {
     @Spec
     lateinit var spec: CommandSpec
 
+    /**
+     * Method for handling the add Method in the CLI
+     *
+     * @param username username to add
+     * @param password password to add
+     * @param platform platform to add
+     */
     @Command(name = "add", description = ["Add new Password"])
     fun createPassword(
         @Option(names = ["-u", "--username"], required = true) username: String,
@@ -41,6 +53,12 @@ class PasswordManagerCli : Callable<Int> {
         PrettyPrinter(spec).printAdded(username, platform)
     }
 
+    /**
+     * Method for handling the get Method in the CLI
+     *
+     * @param username username to get
+     * @param platform platform to get
+     */
     @Command(name = "get", description = ["Get Password"])
     fun getPassword(
         @Option(names = ["-u", "--username"], required = true) username: String,

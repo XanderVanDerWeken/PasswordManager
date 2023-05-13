@@ -5,6 +5,12 @@ import org.ktorm.support.sqlite.SQLiteDialect
 import org.sqlite.SQLiteDataSource
 import java.io.File
 
+/**
+ * Database Manager Object.
+ * Database is managed here, and also the Init script is applied here
+ *
+ * @author Xander Van der Weken
+ */
 object SqliteDatabase {
     const val INIT_SCRIPT = "init-sqlite-data.sql"
 
@@ -21,14 +27,13 @@ object SqliteDatabase {
         execSqlScript(INIT_SCRIPT, database)
     }
 
-    /*fun connect() : Database {
-        return Database.connect (
-            url = "jdbc:sqlite::memory:",
-            dialect = SQLiteDialect()
-        )
-    }*/
-
-    fun execSqlScript(filename: String, database: Database) {
+    /**
+     * Helper Method for applying SQL-Scripts
+     *
+     * @param filename filename of the file that should be applied
+     * @param database on which to perform
+     */
+    private fun execSqlScript(filename: String, database: Database) {
         database.useConnection { conn ->
             conn.createStatement().use { statement ->
                 javaClass.classLoader

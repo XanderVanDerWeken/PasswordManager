@@ -1,8 +1,12 @@
 package com.xander.passwordmanager.cli
 
-import com.xander.passwordmanager.persistence.PasswordEntry
 import picocli.CommandLine
 
+/**
+ * Pretty Printer, to make the Output pretty in the CLI
+ *
+ * @author Xander Van der Weken
+ */
 class PrettyPrinter(val spec: CommandLine.Model.CommandSpec) {
     companion object {
         const val asciiArt =
@@ -15,18 +19,37 @@ class PrettyPrinter(val spec: CommandLine.Model.CommandSpec) {
 """
     }
 
+    /**
+     * Print Method for an added password
+     *
+     * @param username username for which a password was added
+     * @param platform platform for which a password was added
+     */
     fun printAdded(username: String, platform: String) {
         spec.commandLine().out.println("""
             A Password for $username on $platform has been added.
         """.trimIndent())
     }
 
+    /**
+     * Print Method for a retrieved password
+     *
+     * @param username username for which was retrieved
+     * @param password password which was retrieved
+     * @param platform platform for which was retrieved
+     */
     fun printGot(username: String, password: String, platform: String) {
         spec.commandLine().out.println("""
             This password was found for $username on $platform: $password
         """.trimIndent())
     }
 
+    /**
+     * Print Method for when retrieval failed
+     *
+     * @param username given username where no password was found
+     * @param platform given platform where no password was found
+     */
     fun printNotGot(username: String, platform: String) {
         spec.commandLine().out.println("""
             No Password found for $username on $platform
