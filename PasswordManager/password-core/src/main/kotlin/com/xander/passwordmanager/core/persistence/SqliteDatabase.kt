@@ -1,6 +1,7 @@
-package com.xander.passwordmanager.persistence
+package com.xander.passwordmanager.core.persistence
 
 import org.ktorm.database.Database
+import org.ktorm.database.use
 import org.ktorm.support.sqlite.SQLiteDialect
 import org.sqlite.SQLiteDataSource
 import java.io.File
@@ -40,8 +41,8 @@ object SqliteDatabase {
                     ?.getResourceAsStream(filename)
                     ?.bufferedReader()
                     ?.use { reader ->
-                        for( sql in reader.readText().split(";") ) {
-                            if(sql.any { it.isLetterOrDigit() }) {
+                        for( sql in reader.readText().split(";")) {
+                            if( sql.any { it.isLetterOrDigit() }) {
                                 statement.executeUpdate(sql)
                             }
                         }

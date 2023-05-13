@@ -1,4 +1,4 @@
-package com.xander.passwordmanager.security
+package com.xander.passwordmanager.core.security
 
 import java.util.Base64
 import javax.crypto.Cipher

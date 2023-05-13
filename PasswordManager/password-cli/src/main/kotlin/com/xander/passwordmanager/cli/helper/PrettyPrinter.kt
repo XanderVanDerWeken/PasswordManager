@@ -1,4 +1,4 @@
-package com.xander.passwordmanager.cli
+package com.xander.passwordmanager.cli.helper
 
 import picocli.CommandLine
 
@@ -10,7 +10,7 @@ import picocli.CommandLine
 class PrettyPrinter(val spec: CommandLine.Model.CommandSpec) {
     companion object {
         const val asciiArt =
-"""
+            """
     ____                  __  ___          
    / __ \____ ___________/  |/  /___ _____ 
   / /_/ / __ `/ ___/ ___/ /|_/ / __ `/ __ \

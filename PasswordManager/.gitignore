@@ -1,4 +1,6 @@
 .idea/
+./password-cli/target/
+./password-core/target/
 
 ### Maven template
 target/

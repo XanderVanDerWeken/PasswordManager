@@ -1,4 +1,4 @@
-package com.xander.passwordmanager.persistence
+package com.xander.passwordmanager.core.persistence
 
 import org.ktorm.dsl.QueryRowSet
 import org.ktorm.schema.BaseTable
