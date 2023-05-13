@@ -13,7 +13,8 @@ object SqliteDatabase {
     }
 
     val database = Database.connect(
-        dataSource = dataSource
+        dataSource = dataSource,
+        dialect = SQLiteDialect()
     )
 
     init {

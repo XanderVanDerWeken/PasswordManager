@@ -10,12 +10,8 @@ class PasswordRepositoryImpl(
     private val database: Database,
 ) : IPasswordRepository {
 
-    companion object {
-        private val masterPassword: CharArray = "MasterPassword".toCharArray()
-    }
-
     override fun addPassword(username: String, password: String, platform: String) {
-        val encryptedPassword = PasswordEncryptor.encryptPassword(masterPassword, password).toString()
+        val encryptedPassword = PasswordEncryptor.encryptPassword(password)
 
         database.insertAndGenerateKey(PasswordEntries) {
             set(it.username, username)
@@ -25,23 +21,25 @@ class PasswordRepositoryImpl(
     }
 
     override fun getPassword(platform: String, username: String): String? {
-        val result = database.from(PasswordEntries)
+        val query = database.from(PasswordEntries)
             .select()
             .where{ (PasswordEntries.username eq username) and ( PasswordEntries.platform eq platform ) }
-            .map {
-                PasswordEntry(
-                    id = it[PasswordEntries.id]!!.toLong(),
-                    username = it[PasswordEntries.username]!!.toString(),
-                    password = it[PasswordEntries.password]!!.toString(),
-                    platform = it[PasswordEntries.platform]!!.toString()
-                )
-            }
-
-        if(result.isNotEmpty()) {
-            println("Is not empty")
-            return PasswordEncryptor.decryptPassword(masterPassword, result.first().password.toByteArray())
+        val result = query.map {
+            PasswordEntry(
+                id = it[PasswordEntries.id]!!,
+                username = it[PasswordEntries.username]!!,
+                platform = it[PasswordEntries.platform]!!,
+                password = it[PasswordEntries.password]!!
+            )
         }
-        println("Is empty")
-        return null
+        return if( result.isNotEmpty() ) {
+            PasswordEncryptor.decryptPassword(
+                result.first()
+                    .password
+            )
+        }
+        else {
+            null
+        }
     }
 }

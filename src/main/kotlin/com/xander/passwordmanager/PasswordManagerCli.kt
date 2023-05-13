@@ -31,27 +31,26 @@ class PasswordManagerCli : Callable<Int> {
     @Spec
     lateinit var spec: CommandSpec
 
-    @Command(name = "add", description = [PrettyPrinter.asciiArt, "Add new Password"])
+    @Command(name = "add", description = ["Add new Password"])
     fun createPassword(
         @Option(names = ["-u", "--username"], required = true) username: String,
         @Option(names = ["-p", "--password"], required = true) password: String,
         @Option(names = ["-l", "--platform"], required = true) platform: String
     ) {
-        spec.commandLine().out.println("Actually in add method")
         repository.addPassword( username, password, platform )
-        spec.commandLine().out.println("Great")
+        PrettyPrinter(spec).printAdded(username, platform)
     }
 
-    @Command(name = "get", description = [PrettyPrinter.asciiArt, "Get Password"])
+    @Command(name = "get", description = ["Get Password"])
     fun getPassword(
         @Option(names = ["-u", "--username"], required = true) username: String,
         @Option(names = ["-l", "--platform"], required = true) platform: String
     ) {
         val password = repository.getPassword( platform, username )
         if(password == null)
-            spec.commandLine().out.println("Password not found")
+            PrettyPrinter(spec).printNotGot(username, platform)
         else
-            spec.commandLine().out.println( "Password is $password" )
+            PrettyPrinter(spec).printGot(username, password, platform)
     }
 
     override fun call(): Int {
