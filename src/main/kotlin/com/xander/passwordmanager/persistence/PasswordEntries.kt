@@ -5,7 +5,7 @@ import org.ktorm.schema.BaseTable
 import org.ktorm.schema.long
 import org.ktorm.schema.varchar
 
-object PasswordEntries : BaseTable<PasswordEntry>("password_entries") {
+object PasswordEntries : BaseTable<PasswordEntry>("t_password_entries") {
     val id = long("id").primaryKey()
     val username = varchar("username")
     val password = varchar("password")

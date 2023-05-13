@@ -25,10 +25,9 @@ class PasswordRepositoryImpl(
     }
 
     override fun getPassword(platform: String, username: String): String? {
-        val entryFromDb: PasswordEntry? = database.from(PasswordEntries)
+        val result = database.from(PasswordEntries)
             .select()
             .where{ (PasswordEntries.username eq username) and ( PasswordEntries.platform eq platform ) }
-            .limit(1)
             .map {
                 PasswordEntry(
                     id = it[PasswordEntries.id]!!.toLong(),
@@ -37,8 +36,12 @@ class PasswordRepositoryImpl(
                     platform = it[PasswordEntries.platform]!!.toString()
                 )
             }
-            .firstOrNull()
 
-        return if( entryFromDb != null ) PasswordEncryptor.decryptPassword(masterPassword, entryFromDb.password.toByteArray()) else null
+        if(result.isNotEmpty()) {
+            println("Is not empty")
+            return PasswordEncryptor.decryptPassword(masterPassword, result.first().password.toByteArray())
+        }
+        println("Is empty")
+        return null
     }
 }
