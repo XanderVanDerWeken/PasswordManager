@@ -1,12 +1,8 @@
 package com.xander.passwordmanager.cli
 
 import com.xander.passwordmanager.cli.helper.PrettyPrinter
-import com.xander.passwordmanager.core.persistence.SqliteDatabase
 import com.xander.passwordmanager.core.repository.*
-import org.ktorm.database.Database
 import picocli.CommandLine
-import picocli.CommandLine.*
-import picocli.CommandLine.Model.CommandSpec
 import java.util.concurrent.Callable
 import kotlin.system.exitProcess
 
@@ -23,14 +19,7 @@ import kotlin.system.exitProcess
 )
 class PasswordManagerCli : Callable<Int> {
 
-    private val database: Database
-    private val repository : IPasswordRepository
-
-    init {
-        println("Execute Init")
-        this.database = SqliteDatabase.database
-        this.repository = PasswordRepositoryImpl( database )
-    }
+    private val repository = RepositoryFactory.create()
 
     @CommandLine.Spec
     lateinit var spec: CommandLine.Model.CommandSpec
