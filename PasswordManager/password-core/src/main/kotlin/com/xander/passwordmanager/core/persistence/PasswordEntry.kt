@@ -1,4 +1,4 @@
-package com.xander.passwordmanager.persistence
+package com.xander.passwordmanager.core.persistence
 
 /**
  * Data Class for a row of a Password Entry

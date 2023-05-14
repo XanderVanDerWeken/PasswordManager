@@ -1,4 +1,4 @@
-package com.xander.passwordmanager.repository
+package com.xander.passwordmanager.core.repository
 
 /**
  * Interface for the Password Repository, to work with the Storage.

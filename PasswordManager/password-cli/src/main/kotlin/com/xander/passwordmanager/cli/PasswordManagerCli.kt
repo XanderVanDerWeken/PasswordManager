@@ -1,9 +1,8 @@
-package com.xander.passwordmanager
+package com.xander.passwordmanager.cli
 
-import com.xander.passwordmanager.cli.PrettyPrinter
-import com.xander.passwordmanager.persistence.SqliteDatabase
-import com.xander.passwordmanager.repository.IPasswordRepository
-import com.xander.passwordmanager.repository.PasswordRepositoryImpl
+import com.xander.passwordmanager.cli.helper.PrettyPrinter
+import com.xander.passwordmanager.core.persistence.SqliteDatabase
+import com.xander.passwordmanager.core.repository.*
 import org.ktorm.database.Database
 import picocli.CommandLine
 import picocli.CommandLine.*
@@ -16,7 +15,7 @@ import kotlin.system.exitProcess
  *
  * @author Xander Van der Weken
  */
-@Command(
+@CommandLine.Command(
     name = "password-manager",
     version = ["1.0"],
     mixinStandardHelpOptions = true,
@@ -33,8 +32,8 @@ class PasswordManagerCli : Callable<Int> {
         this.repository = PasswordRepositoryImpl( database )
     }
 
-    @Spec
-    lateinit var spec: CommandSpec
+    @CommandLine.Spec
+    lateinit var spec: CommandLine.Model.CommandSpec
 
     /**
      * Method for handling the add Method in the CLI
@@ -43,11 +42,11 @@ class PasswordManagerCli : Callable<Int> {
      * @param password password to add
      * @param platform platform to add
      */
-    @Command(name = "add", description = ["Add new Password"])
+    @CommandLine.Command(name = "add", description = ["Add new Password"])
     fun createPassword(
-        @Option(names = ["-u", "--username"], required = true) username: String,
-        @Option(names = ["-p", "--password"], required = true) password: String,
-        @Option(names = ["-l", "--platform"], required = true) platform: String
+        @CommandLine.Option(names = ["-u", "--username"], required = true) username: String,
+        @CommandLine.Option(names = ["-p", "--password"], required = true) password: String,
+        @CommandLine.Option(names = ["-l", "--platform"], required = true) platform: String
     ) {
         repository.addPassword( username, password, platform )
         PrettyPrinter(spec).printAdded(username, platform)
@@ -59,10 +58,10 @@ class PasswordManagerCli : Callable<Int> {
      * @param username username to get
      * @param platform platform to get
      */
-    @Command(name = "get", description = ["Get Password"])
+    @CommandLine.Command(name = "get", description = ["Get Password"])
     fun getPassword(
-        @Option(names = ["-u", "--username"], required = true) username: String,
-        @Option(names = ["-l", "--platform"], required = true) platform: String
+        @CommandLine.Option(names = ["-u", "--username"], required = true) username: String,
+        @CommandLine.Option(names = ["-l", "--platform"], required = true) platform: String
     ) {
         val password = repository.getPassword( platform, username )
         if(password == null)

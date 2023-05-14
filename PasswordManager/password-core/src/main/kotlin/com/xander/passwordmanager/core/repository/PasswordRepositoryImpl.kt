@@ -1,8 +1,8 @@
-package com.xander.passwordmanager.repository
+package com.xander.passwordmanager.core.repository
 
-import com.xander.passwordmanager.persistence.PasswordEntry
-import com.xander.passwordmanager.persistence.PasswordEntries
-import com.xander.passwordmanager.security.PasswordEncryptor
+import com.xander.passwordmanager.core.persistence.PasswordEntry
+import com.xander.passwordmanager.core.persistence.PasswordEntries
+import com.xander.passwordmanager.core.security.PasswordEncryptor
 import org.ktorm.database.Database
 import org.ktorm.dsl.*
 
